@@ -1,13 +1,37 @@
 import React, { Component } from "react";
 import "./style.scss";
 import 'antd/dist/antd.css';
-import { Row, Col, Layout, Carousel, Menu } from 'antd';
+import { Row, Col, Layout, Carousel, Menu, Space, Card } from 'antd';
 const { Header, Footer, Sider, Content } = Layout;
 
 export default class Homepage extends Component {
-    render() {
-        return (
+    constructor(props) {
+        super(props);
+        this.state = {
+            listDishes: []
+        }
+    }
+    componentDidMount() {
 
+    }
+    render() {
+        const { listDishes } = this.state;
+
+        // if (listDishes && listDishes.length > 0) {
+        //     var rows = [];
+        //     var rowbody = [];
+        //     var rowdata = listDishes.map((val, ind) => {
+        //         return (
+        //             <Col span={8} >
+        //                 <Card title={val.title} style={{ width: 300 }}>
+        //                     <p>{val.content}</p>
+        //                 </Card>
+        //             </Col>
+        //         )
+        //     })
+        // }
+
+        return (
             <Layout className="homepage">
                 <Header>Header</Header>
                 <Content>
@@ -46,28 +70,108 @@ export default class Homepage extends Component {
                             </Menu>
                         </Sider>
                         <Content>
-                            <Row gutter={[16, 16]}>
-                                <Col span={8} >
-                                    <div>Column</div>
-                                </Col>
-                                <Col span={8} >
-                                    <div>Column</div>
-                                </Col>
-                                <Col span={8} >
-                                    <div>Column</div>
-                                </Col>
-                            </Row>
-                            <Row gutter={[16, 16]}>
-                                <Col span={8} >
-                                    <div>Column</div>
-                                </Col>
-                                <Col span={8} >
-                                    <div>Column</div>
-                                </Col>
-                                <Col span={8} >
-                                    <div>Column</div>
-                                </Col>
-                            </Row>
+                            <Space direction="vertical">
+                                <Row gutter={[16, 16]}>
+                                    <Space direction="horizontal">
+                                        <Col span={8} >
+                                            <Card title="Default size card" style={{ width: 300 }}>
+                                                <p>Card content</p>
+                                                <p>Card content</p>
+                                                <p>Card content</p>
+                                            </Card>
+                                        </Col>
+                                        <Col span={8} >
+                                            <Card title="Default size card" style={{ width: 300 }}>
+                                                <p>Card content</p>
+                                                <p>Card content</p>
+                                                <p>Card content</p>
+                                            </Card>
+                                        </Col>
+                                        <Col span={8} >
+                                            <Card title="Default size card" style={{ width: 300 }}>
+                                                <p>Card content</p>
+                                                <p>Card content</p>
+                                                <p>Card content</p>
+                                            </Card>
+                                        </Col>
+                                    </Space>
+                                </Row>
+                                <Row gutter={[16, 16]}>
+                                    <Space direction="horizontal">
+                                        <Col span={8} >
+                                            <Card title="Default size card" style={{ width: 300 }}>
+                                                <p>Card content</p>
+                                                <p>Card content</p>
+                                                <p>Card content</p>
+                                            </Card>
+                                        </Col>
+                                        <Col span={8} >
+                                            <Card title="Default size card" style={{ width: 300 }}>
+                                                <p>Card content</p>
+                                                <p>Card content</p>
+                                                <p>Card content</p>
+                                            </Card>
+                                        </Col>
+                                        <Col span={8} >
+                                            <Card title="Default size card" style={{ width: 300 }}>
+                                                <p>Card content</p>
+                                                <p>Card content</p>
+                                                <p>Card content</p>
+                                            </Card>
+                                        </Col>
+                                    </Space>
+                                </Row>
+                                <Row gutter={[16, 16]}>
+                                    <Space direction="horizontal">
+                                        <Col span={8} >
+                                            <Card title="Default size card" style={{ width: 300 }}>
+                                                <p>Card content</p>
+                                                <p>Card content</p>
+                                                <p>Card content</p>
+                                            </Card>
+                                        </Col>
+                                        <Col span={8} >
+                                            <Card title="Default size card" style={{ width: 300 }}>
+                                                <p>Card content</p>
+                                                <p>Card content</p>
+                                                <p>Card content</p>
+                                            </Card>
+                                        </Col>
+                                        <Col span={8} >
+                                            <Card title="Default size card" style={{ width: 300 }}>
+                                                <p>Card content</p>
+                                                <p>Card content</p>
+                                                <p>Card content</p>
+                                            </Card>
+                                        </Col>
+                                    </Space>
+                                </Row>
+                                <Row gutter={[16, 16]}>
+                                    <Space direction="horizontal">
+                                        <Col span={8} >
+                                            <Card title="Default size card" style={{ width: 300 }}>
+                                                <p>Card content</p>
+                                                <p>Card content</p>
+                                                <p>Card content</p>
+                                            </Card>
+                                        </Col>
+                                        <Col span={8} >
+                                            <Card title="Default size card" style={{ width: 300 }}>
+                                                <p>Card content</p>
+                                                <p>Card content</p>
+                                                <p>Card content</p>
+                                            </Card>
+                                        </Col>
+                                        <Col span={8} >
+                                            <Card title="Default size card" style={{ width: 300 }}>
+                                                <p>Card content</p>
+                                                <p>Card content</p>
+                                                <p>Card content</p>
+                                            </Card>
+                                        </Col>
+                                    </Space>
+                                </Row>
+                            </Space>
                         </Content>
                     </Layout>
 
