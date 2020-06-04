@@ -1,16 +1,25 @@
 import React, { Component } from "react";
 import "./style.scss";
 import 'antd/dist/antd.css';
-import { Row, Col, Layout, Carousel, Menu, Space, Card } from 'antd';
+import { Row, Col, Layout, Carousel, Menu, Space, Card, Modal, Rate } from 'antd';
 const { Header, Footer, Sider, Content } = Layout;
 
 export default class Homepage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            listDishes: []
+            listDishes: [],
+            visible: false
         }
     }
+    showModal = () => {
+        this.setState({
+            visible: true,
+        });
+    };
+    handleCancel = () => {
+        this.setState({ visible: false });
+    };
     componentDidMount() {
 
     }
@@ -50,8 +59,20 @@ export default class Homepage extends Component {
                         </div>
                     </Carousel>
                     <Layout>
+                        <Modal
+                            visible={this.state.visible}
+                            title="Title"
+                            footer={null}
+                            onCancel={this.handleCancel}
+                        >
+                            <Rate disabled defaultValue={2} />
+                            <p>Some contents...</p>
+                            <p>Some contents...</p>
+                            <p>Some contents...</p>
+                            <p><Rate /></p>
+                        </Modal>
                         <Sider>
-                            <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+                            <Menu theme="dark" defaultSelectedKeys={['1']} mode="vertical-left">
                                 <Menu.Item key="1">
                                     <span>Option 1</span>
                                 </Menu.Item>
@@ -74,7 +95,7 @@ export default class Homepage extends Component {
                                 <Row gutter={[16, 16]}>
                                     <Space direction="horizontal">
                                         <Col span={8} >
-                                            <Card title="Default size card" style={{ width: 300 }}>
+                                            <Card title="Default size card" style={{ width: 300 }} onClick={this.showModal}>
                                                 <p>Card content</p>
                                                 <p>Card content</p>
                                                 <p>Card content</p>
