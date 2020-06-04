@@ -1,0 +1,27 @@
+.ant-layout {
+    width: 100%;
+}
+.homepage {
+    .slider-image {
+        height: 400px;
+    }
+    .ant-carousel {
+        height: 500px;
+        .slick-slider {
+            height: 100%;
+            .slick-list {
+                height: 100%;
+                .slick-slide {
+                    text-align: center;
+                    height: 500px;
+                    line-height: 160px;
+                    background: #364d79;
+                    overflow: hidden;
+                    h3 {
+                        color: #fff;
+                    }
+                }
+            }
+        }
+    }
+}
