@@ -10,6 +10,17 @@
             align-self: center;
         }
     }
+    .ant-space {
+        .ant-space-item {
+            height: 100%;
+            .ant-col {
+                height: 100%;
+                .ant-card {
+                    height: 100%;
+                }
+            }
+        }
+    }
 }
 .homepage {
     .slider-image {
@@ -30,13 +41,15 @@
                     .ant-card {
                         height: 500px;
                         .ant-card-cover {
-                            height: 300px;
+                            height: 100px;
                             img {
                                 height: auto;
                             }
                         }
                         .ant-card-body {
                             color: white;
+                            width: 50%;
+                            margin: 0 auto;
                         }
                     }
                     h3 {
@@ -49,4 +62,8 @@
 }
 .ant-modal {
     width: 90% !important;
+    .description {
+        display: flex;
+        justify-content: space-between;
+    }
 }

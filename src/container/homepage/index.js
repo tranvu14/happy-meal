@@ -89,10 +89,11 @@ class Homepage extends Component {
                             {rowdata[i]}
                             {rowdata[i + 1]}
                             {rowdata[i + 2]}
+                            {rowdata[i + 3]}
                         </Space>
                     </Row>
                 )
-                i = i + 3
+                i = i + 4
             }
         }
         console.log(detailDish);
@@ -127,17 +128,22 @@ class Homepage extends Component {
                                     onCancel={this.handleCancel}
                                 >
                                     <p> Đánh giá: <Rate disabled defaultValue={detailDish[0].rating} />  </p>
+                                    <Space direction="horizontal" className="description">
+                                        <div>
+                                            <h2>Những nguyên liệu cần chuẩn bị</h2>
+                                            {
+                                                detailDish[0].ingredients.length > 0 ? (
+                                                    <>
+                                                        {detailDish[0].ingredients.map((val, ind) =>
+                                                            (<p>{val.ingredient_name} : {val.ingredient_weight} </p>)
+                                                        )}
+                                                    </>
+                                                ) : null
+                                            }
+                                        </div>
+                                        <img alt="img" src={detailDish[0].thumbnail} />
+                                    </Space>
 
-                                    <h2>Những nguyên liệu cần chuẩn bị</h2>
-                                    {
-                                        detailDish[0].ingredients.length > 0 ? (
-                                            <>
-                                                {detailDish[0].ingredients.map((val, ind) =>
-                                                    (<p>{val.ingredient_name} : {val.ingredient_weight} </p>)
-                                                )}
-                                            </>
-                                        ) : null
-                                    }
                                     <h2>Bước 1: Sơ chế</h2>
                                     <p>{detailDish[0].prepare}</p>
                                     <h2>Bước 2: Thực hiện</h2>

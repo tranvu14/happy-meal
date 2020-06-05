@@ -19,6 +19,7 @@ class AddDish extends React.Component {
     this.setState({
       dataPost: values
     })
+    this.props.cancel()
     console.log('Received values of form:', values);
   };
 
