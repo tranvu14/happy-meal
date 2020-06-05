@@ -6,6 +6,7 @@ import { getAllDishes, getDetailDish } from "../../actions/home"
 import { Row, Col, Layout, Carousel, Menu, Space, Card, Modal, Rate, Button, Avatar, Dropdown } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import AddDish from "./add_dish";
+import LoginForm from "./login";
 const { Header, Footer, Sider, Content } = Layout;
 
 class Homepage extends Component {
@@ -15,7 +16,8 @@ class Homepage extends Component {
             listDishes: [],
             detailDish: [],
             visible: false,
-            add_dish: false
+            add_dish: false,
+            login: false
         }
     }
     showModal = (e, id) => {
@@ -31,8 +33,13 @@ class Homepage extends Component {
             add_dish: true
         })
     }
+    showLogin = () => {
+        this.setState({
+            login: true
+        })
+    }
     handleCancel = () => {
-        this.setState({ visible: false, add_dish: false });
+        this.setState({ visible: false, add_dish: false, login: false });
     };
     componentDidMount() {
         this.props.getAllDishes()
@@ -107,6 +114,9 @@ class Homepage extends Component {
                             <Menu.Item>
                                 <Button onClick={this.addDish}>Thêm món ăn</Button>
                             </Menu.Item>
+                            <Menu.Item>
+                                <Button onClick={this.showLogin}>Đăng nhập</Button>
+                            </Menu.Item>
                         </Menu>
                     }>
 
@@ -164,6 +174,15 @@ class Homepage extends Component {
                             cancel={this.handleCancel}
                         >
                             <AddDish />
+                        </Modal>
+                        <Modal
+                            visible={this.state.login}
+                            title="Đăng nhập"
+                            footer={null}
+                            onCancel={this.handleCancel}
+                            cancel={this.handleCancel}
+                        >
+                            <LoginForm />
                         </Modal>
                         {/* <Sider>
                             <Menu theme="dark" defaultSelectedKeys={['1']} mode="vertical-left">
