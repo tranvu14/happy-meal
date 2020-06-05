@@ -62,9 +62,7 @@ class Homepage extends Component {
                 listDishes: nextProps.listDishes
             });
         }
-        if (JSON.stringify(nextProps.detailDish) !== JSON.stringify(detailDish)) {
-            console.log(nextProps.detailDish);
-
+        if (JSON.stringify(nextProps.detailDish)) {
             this.setState({
                 detailDish: nextProps.detailDish,
                 visible: true,
@@ -73,6 +71,13 @@ class Homepage extends Component {
     }
     render() {
         const { listDishes, detailDish } = this.state;
+        {
+            if (detailDish.length > 0) {
+                console.log(detailDish[0].rating);
+            }
+        }
+
+
         if (listDishes && listDishes.length > 0) {
             var rows = [];
             var rowbody = [];
@@ -98,7 +103,7 @@ class Homepage extends Component {
                             <h4><span>Đánh giá :</span>
                                 {
                                     val.rating > 0 ? (
-                                        <Rate defaultValue={val.rating} disabled />
+                                        <Rate defaultValue={Number(val.rating)} disabled />
                                     ) : (<p>Chưa có đánh giá</p>)
                                 }
 
@@ -168,7 +173,7 @@ class Homepage extends Component {
                                     footer={null}
                                     onCancel={this.handleCancel}
                                 >
-                                    <p> Đánh giá: <Rate disabled defaultValue={detailDish[0].rating} />  </p>
+                                    <p> Đánh giá: <Rate disabled defaultValue={Number(detailDish[0].rating)} />  </p>
                                     <Space direction="horizontal" className="description">
                                         <div>
                                             <h2>Những nguyên liệu cần chuẩn bị</h2>

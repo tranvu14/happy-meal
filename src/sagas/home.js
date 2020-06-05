@@ -103,6 +103,7 @@ export function* rating(payload) {
 
         if (data && status === 201) {
             yield put(homeAction.ratingSuccess(data));
+            yield put(homeAction.getAllDishes())
         } else {
             yield put(homeAction.ratingFail(data));
         }
