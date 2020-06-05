@@ -19,14 +19,16 @@ class AddDish extends React.Component {
     this.setState({
       dataPost: values
     })
-    this.props.cancel()
+    this.props.onCancel()
     console.log('Received values of form:', values);
   };
+
 
   validateMessages = {
     required: '${label} phải có!',
   };
   render() {
+    console.log(this.cancel)
     return (
       <Form name="dynamic_form_nest_item" onFinish={this.onFinish} autoComplete="off" validateMessages={this.validateMessages}>
         <Form.Item

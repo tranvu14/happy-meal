@@ -4,6 +4,8 @@ var initState = {
     listDishes: [],
     listPostDish: [],
     detailDish: [],
+    dataLogin: [],
+    token: "",
     isLoading: null,
     error: null
 }
@@ -72,6 +74,28 @@ var homeReducer = (state = initState, action) => {
                 ...state,
                 isLoading: false,
                 detailDish: [],
+                error: action.payload.error
+            };
+        case types.LOGIN:
+            return {
+                ...state,
+                isLoading: true,
+                error: null
+            };
+        case types.LOGIN_SUCCESS:
+            const dataLogin = action.payload.data;
+            return {
+                ...state,
+                isLoading: false,
+                dataLogin: [dataLogin],
+                token: dataLogin.token,
+                error: null,
+            };
+        case types.LOGIN_FAIL:
+            return {
+                ...state,
+                isLoading: false,
+                dataLogin: [],
                 error: action.payload.error
             };
         default:

@@ -111,12 +111,18 @@ class Homepage extends Component {
                     <h2>MÓN NGON MỖI NGÀY</h2>
                     <Dropdown overlay={
                         <Menu>
-                            <Menu.Item>
-                                <Button onClick={this.addDish}>Thêm món ăn</Button>
-                            </Menu.Item>
-                            <Menu.Item>
-                                <Button onClick={this.showLogin}>Đăng nhập</Button>
-                            </Menu.Item>
+                            {
+                                this.props.token && this.props.token.length > 0 ?
+                                    (<Menu.Item>
+                                        <Button onClick={this.addDish}>Thêm món ăn</Button>
+                                    </Menu.Item>)
+                                    : (
+                                        <Menu.Item>
+                                            <Button onClick={this.showLogin}>Đăng nhập</Button>
+                                        </Menu.Item>
+                                    )
+
+                            }
                         </Menu>
                     }>
 
@@ -171,18 +177,17 @@ class Homepage extends Component {
                             title="Thêm món ăn mới"
                             footer={null}
                             onCancel={this.handleCancel}
-                            cancel={this.handleCancel}
+
                         >
-                            <AddDish />
+                            <AddDish onCancel={this.handleCancel} />
                         </Modal>
                         <Modal
                             visible={this.state.login}
                             title="Đăng nhập"
                             footer={null}
                             onCancel={this.handleCancel}
-                            cancel={this.handleCancel}
                         >
-                            <LoginForm />
+                            <LoginForm onCancel={this.handleCancel} />
                         </Modal>
                         {/* <Sider>
                             <Menu theme="dark" defaultSelectedKeys={['1']} mode="vertical-left">
@@ -226,7 +231,8 @@ const mapStateToProps = state => ({
     isLoading: state.homeReducer.isLoading,
     error: state.homeReducer.error,
     listDishes: state.homeReducer.listDishes,
-    detailDish: state.homeReducer.detailDish
+    detailDish: state.homeReducer.detailDish,
+    token: state.homeReducer.token
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Homepage)

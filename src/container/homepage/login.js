@@ -2,8 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
 import { Form, Input, Button, Checkbox } from 'antd'
-
-export default class LoginForm extends React.Component {
+import { connect } from 'react-redux'
+import { login } from "../../actions/home"
+class LoginForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -25,15 +26,16 @@ export default class LoginForm extends React.Component {
         }
     }
     onFinish = values => {
-        console.log('Success:', values);
+        this.props.login({
+            email: values.email,
+            password: values.password
+        })
+        this.props.onCancel()
     };
 
     onFinishFailed = errorInfo => {
         console.log('Failed:', errorInfo);
     };
-
-
-
     render() {
         return (
             <Form
@@ -86,3 +88,15 @@ export default class LoginForm extends React.Component {
 
     }
 }
+
+
+const mapDispatchToProps = dispatch => ({
+    login: (data) => dispatch(login(data)),
+})
+const mapStateToProps = state => ({
+    isLoading: state.homeReducer.isLoading,
+    error: state.homeReducer.error,
+    dataLogin: state.homeReducer.dataLogin
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm)

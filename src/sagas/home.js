@@ -65,9 +65,31 @@ export function* getDetailDish(payload) {
     }
 }
 
+function Apilogin(data) {
+    const login = data.payload.data
+    return Axios.post(apiUrl.API_BACKEND + apiUrl.API_LOGIN, login);
+
+}
+export function* login(payload) {
+    try {
+        const response = yield call(Apilogin, payload);
+        const { data, status } = response;
+
+        if (data && status === 200) {
+            yield put(homeAction.loginSuccess(data));
+            localStorage.setItem("jwtToken", data.token);
+        } else {
+            yield put(homeAction.loginFail(data));
+        }
+    } catch (error) {
+        yield put(homeAction.loginFail(error));
+        console.log(error);
+    }
+}
 
 export function* actionHome() {
     yield takeEvery(types.GET_ALL_DISHES, getAllDishes)
     yield takeEvery(types.POST_NEW_DISH, postNewDish)
     yield takeEvery(types.GET_DETAIL_DISH, getDetailDish)
+    yield takeEvery(types.LOGIN, login)
 }

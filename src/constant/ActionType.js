@@ -9,3 +9,7 @@ export const POST_NEW_DISH_FAIL = "POST_NEW_DISH_FAIL";
 export const GET_DETAIL_DISH = "GET_DETAIL_DISH";
 export const GET_DETAIL_DISH_SUCCESS = "GET_DETAIL_DISH_SUCCESS";
 export const GET_DETAIL_DISH_FAIL = "GET_DETAIL_DISH_FAIL";
+
+export const LOGIN = "LOGIN";
+export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
+export const LOGIN_FAIL = "LOGIN_FAIL";
