@@ -78,6 +78,7 @@ export function* login(payload) {
         if (data && status === 200) {
             yield put(homeAction.loginSuccess(data));
             localStorage.setItem("jwtToken", data.token);
+            Axios.defaults.headers.common["Authorization"] = `Bearer ${data.token}`;
         } else {
             yield put(homeAction.loginFail(data));
         }
@@ -87,9 +88,33 @@ export function* login(payload) {
     }
 }
 
+function Apirating(data) {
+    const { rating_value, dish_id } = data.payload.data
+    console.log(rating_value);
+
+    return Axios.post(apiUrl.API_BACKEND + apiUrl.API_ALL_DISHES + "/" + dish_id + "/" + apiUrl.API_RATING, { "rating_value": rating_value });
+
+}
+export function* rating(payload) {
+    try {
+        const response = yield call(Apirating, payload);
+        const { data, status } = response;
+
+        if (data && status === 201) {
+            yield put(homeAction.ratingSuccess(data));
+        } else {
+            yield put(homeAction.ratingFail(data));
+        }
+    } catch (error) {
+        yield put(homeAction.ratingFail(error));
+        console.log(error);
+    }
+}
+
 export function* actionHome() {
     yield takeEvery(types.GET_ALL_DISHES, getAllDishes)
     yield takeEvery(types.POST_NEW_DISH, postNewDish)
     yield takeEvery(types.GET_DETAIL_DISH, getDetailDish)
     yield takeEvery(types.LOGIN, login)
+    yield takeEvery(types.RATING, rating)
 }

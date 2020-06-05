@@ -5,7 +5,9 @@ var initState = {
     listPostDish: [],
     detailDish: [],
     dataLogin: [],
+    username: "",
     token: "",
+    valueRating: [],
     isLoading: null,
     error: null
 }
@@ -89,6 +91,7 @@ var homeReducer = (state = initState, action) => {
                 isLoading: false,
                 dataLogin: [dataLogin],
                 token: dataLogin.token,
+                username: dataLogin.user.username,
                 error: null,
             };
         case types.LOGIN_FAIL:
@@ -96,6 +99,27 @@ var homeReducer = (state = initState, action) => {
                 ...state,
                 isLoading: false,
                 dataLogin: [],
+                error: action.payload.error
+            };
+        case types.RATING:
+            return {
+                ...state,
+                isLoading: true,
+                error: null
+            };
+        case types.RATING_SUCCESS:
+            const { rating } = action.payload;
+            return {
+                ...state,
+                isLoading: false,
+                valueRating: rating,
+                error: null,
+            };
+        case types.RATING_FAIL:
+            return {
+                ...state,
+                isLoading: false,
+                valueRating: [],
                 error: action.payload.error
             };
         default:

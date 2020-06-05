@@ -9,6 +9,10 @@
         .ant-avatar {
             align-self: center;
         }
+        .info {
+            display: flex;
+            align-self: center;
+        }
     }
     .ant-space {
         .ant-space-item {
@@ -64,6 +68,9 @@
 }
 .ant-modal {
     width: 90% !important;
+    .ant-modal-content {
+        background: #c5d9e7;
+    }
     .description {
         display: flex;
         justify-content: space-between;

@@ -105,3 +105,30 @@ export const loginFail = error => {
         }
     };
 };
+
+export const rating = (data) => {
+    return {
+        type: types.RATING,
+        payload: {
+            data
+        }
+    };
+};
+
+export const ratingSuccess = data => {
+    return {
+        type: types.RATING_SUCCESS,
+        payload: {
+            data
+        }
+    };
+};
+
+export const ratingFail = error => {
+    return {
+        type: types.RATING_FAIL,
+        payload: {
+            error
+        }
+    };
+};

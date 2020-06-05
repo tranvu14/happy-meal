@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import "./style.scss";
 import 'antd/dist/antd.css';
 import { connect } from "react-redux";
-import { getAllDishes, getDetailDish } from "../../actions/home"
-import { Row, Col, Layout, Carousel, Menu, Space, Card, Modal, Rate, Button, Avatar, Dropdown } from 'antd';
+import { getAllDishes, getDetailDish, rating } from "../../actions/home"
+import { Row, Col, Layout, Carousel, Menu, Space, Card, Modal, Rate, Button, Avatar, Dropdown, Alert } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import AddDish from "./add_dish";
 import LoginForm from "./login";
@@ -17,7 +17,8 @@ class Homepage extends Component {
             detailDish: [],
             visible: false,
             add_dish: false,
-            login: false
+            login: false,
+            username: ""
         }
     }
     showModal = (e, id) => {
@@ -38,6 +39,12 @@ class Homepage extends Component {
             login: true
         })
     }
+    sendRating = (e, dish_id) => {
+        this.props.rating({
+            rating_value: Number(e),
+            dish_id
+        })
+    }
     handleCancel = () => {
         this.setState({ visible: false, add_dish: false, login: false });
     };
@@ -46,6 +53,9 @@ class Homepage extends Component {
     }
     componentWillReceiveProps(nextProps) {
         const { listDishes, detailDish } = this.props;
+        this.setState({
+            username: nextProps.username
+        })
         if (nextProps.listDishes !== listDishes) {
             this.setState({
                 listDishes: nextProps.listDishes
@@ -84,6 +94,14 @@ class Homepage extends Component {
                     <Col span={8} >
                         <Card hoverable title={val.title} style={{ width: 300 }} onClick={e => this.showModal(e, val.dish_id)} >
                             <p>{val.description}</p>
+                            <h4><span>Đánh giá :</span>
+                                {
+                                    val.rating > 0 ? (
+                                        <Rate defaultValue={val.rating} disabled />
+                                    ) : (<p>Chưa có đánh giá</p>)
+                                }
+
+                            </h4>
                         </Card>
                     </Col>
                 )
@@ -103,32 +121,38 @@ class Homepage extends Component {
                 i = i + 4
             }
         }
-        console.log(detailDish);
 
         return (
             <Layout className="homepage">
                 <Header>
                     <h2>MÓN NGON MỖI NGÀY</h2>
-                    <Dropdown overlay={
-                        <Menu>
-                            {
-                                this.props.token && this.props.token.length > 0 ?
-                                    (<Menu.Item>
-                                        <Button onClick={this.addDish}>Thêm món ăn</Button>
-                                    </Menu.Item>)
-                                    : (
-                                        <Menu.Item>
-                                            <Button onClick={this.showLogin}>Đăng nhập</Button>
-                                        </Menu.Item>
-                                    )
+                    <div className="info">
+                        {
+                            this.state.username.length > 0 ? (<span>Xin chào {this.state.username}      </span>) : null
+                        }
 
-                            }
-                        </Menu>
-                    }>
+                        <Dropdown overlay={
+                            <Menu>
+                                {
+                                    this.props.token && this.props.token.length > 0 ?
+                                        (<Menu.Item>
+                                            <Button onClick={this.addDish}>Thêm món ăn</Button>
+                                        </Menu.Item>)
+                                        : (
+                                            <Menu.Item>
+                                                <Button onClick={this.showLogin}>Đăng nhập</Button>
+                                            </Menu.Item>
+                                        )
 
-                        <Avatar size={32} icon={<UserOutlined />} className="ant-dropdown-link" onClick={e => e.preventDefault()} />
+                                }
+                            </Menu>
+                        }>
 
-                    </Dropdown>
+                            <Avatar size={32} icon={<UserOutlined />} className="ant-dropdown-link" onClick={e => e.preventDefault()} />
+
+                        </Dropdown>
+                    </div>
+
                 </Header>
                 <Content>
                     <Carousel autoplay className="slider-image">
@@ -167,7 +191,8 @@ class Homepage extends Component {
                                     <h2>Bước 3: Thưởng thức</h2>
                                     <p>{detailDish[0].eating}</p>
                                     <p>Đánh giá</p>
-                                    <p><Rate /></p>
+                                    {this.props.token ? (<p><Rate onChange={e => this.sendRating(e, detailDish[0].dish_id)} /></p>) : <h4>Bạn cần phải đăng nhập để có thể đánh giá</h4>}
+
                                 </Modal>
                             ) : null
                         }
@@ -225,14 +250,16 @@ class Homepage extends Component {
 
 const mapDispatchToProps = dispatch => ({
     getAllDishes: () => dispatch(getAllDishes()),
-    getDetailDish: (data) => dispatch(getDetailDish(data))
+    getDetailDish: (data) => dispatch(getDetailDish(data)),
+    rating: (data) => dispatch(rating(data))
 })
 const mapStateToProps = state => ({
     isLoading: state.homeReducer.isLoading,
     error: state.homeReducer.error,
     listDishes: state.homeReducer.listDishes,
     detailDish: state.homeReducer.detailDish,
-    token: state.homeReducer.token
+    token: state.homeReducer.token,
+    username: state.homeReducer.username
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Homepage)
