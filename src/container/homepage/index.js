@@ -44,6 +44,7 @@ class Homepage extends Component {
             rating_value: Number(e),
             dish_id
         })
+        this.props.getAllDishes()
     }
     handleCancel = () => {
         this.setState({ visible: false, add_dish: false, login: false });
@@ -56,7 +57,7 @@ class Homepage extends Component {
         this.setState({
             username: nextProps.username
         })
-        if (nextProps.listDishes !== listDishes) {
+        if (JSON.stringify(nextProps.listDishes) !== JSON.stringify(listDishes)) {
             this.setState({
                 listDishes: nextProps.listDishes
             });

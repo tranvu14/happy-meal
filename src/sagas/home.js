@@ -35,6 +35,7 @@ export function* postNewDish(payload) {
         const { data, status } = response;
         if (data && status === 200) {
             yield put(homeAction.postNewDishSuccess(data));
+            yield put(homeAction.getAllDishes())
         } else {
             yield put(homeAction.postNewDishFail(data));
         }
