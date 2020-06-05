@@ -139,11 +139,11 @@ class Homepage extends Component {
                                     }
                                     <p><Rate /></p>
                                     <h2>Bước 1: Sơ chế</h2>
-                                    <p>{val.prepare}</p>
+                                    <p>{detailDish[0].prepare}</p>
                                     <h2>Bước 2: Thực hiện</h2>
-                                    <p>{val.doing}</p>
+                                    <p>{detailDish[0].doing}</p>
                                     <h2>Bước 3: Thưởng thức</h2>
-                                    <p>{val.eating}</p>
+                                    <p>{detailDish[0].eating}</p>
                                 </Modal>
                             ) : null
                         }
@@ -185,7 +185,7 @@ class Homepage extends Component {
 
 
                 </Content>
-                <Footer>Footer</Footer>
+                {/* <Footer>Footer</Footer> */}
             </Layout >
         )
     }
