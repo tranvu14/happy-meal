@@ -1,5 +1,15 @@
 .ant-layout {
     width: 100%;
+    .ant-layout-header,
+    .ant-layout-footer {
+        background: #7dbcea;
+        color: #fff;
+        display: flex;
+        justify-content: space-between;
+        .ant-avatar {
+            align-self: center;
+        }
+    }
 }
 .homepage {
     .slider-image {
@@ -17,6 +27,18 @@
                     line-height: 160px;
                     background: #364d79;
                     overflow: hidden;
+                    .ant-card {
+                        height: 500px;
+                        .ant-card-cover {
+                            height: 300px;
+                            img {
+                                height: auto;
+                            }
+                        }
+                        .ant-card-body {
+                            color: white;
+                        }
+                    }
                     h3 {
                         color: #fff;
                     }

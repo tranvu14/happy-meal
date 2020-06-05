@@ -1,77 +1,163 @@
 import React, { Component } from "react";
 import "./style.scss";
 import 'antd/dist/antd.css';
-import { Row, Col, Layout, Carousel, Menu, Space, Card, Modal, Rate } from 'antd';
+import { connect } from "react-redux";
+import { getAllDishes, getDetailDish } from "../../actions/home"
+import { Row, Col, Layout, Carousel, Menu, Space, Card, Modal, Rate, Button, Avatar, Dropdown } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
+import AddDish from "./add_dish";
 const { Header, Footer, Sider, Content } = Layout;
 
-export default class Homepage extends Component {
+class Homepage extends Component {
     constructor(props) {
         super(props);
         this.state = {
             listDishes: [],
-            visible: false
+            detailDish: [],
+            visible: false,
+            add_dish: false
         }
     }
-    showModal = () => {
-        this.setState({
-            visible: true,
-        });
+    showModal = (e, id) => {
+        e.stopPropagation()
+        if (id) {
+            this.props.getDetailDish(id)
+        }
+
+
     };
+    addDish = () => {
+        this.setState({
+            add_dish: true
+        })
+    }
     handleCancel = () => {
-        this.setState({ visible: false });
+        this.setState({ visible: false, add_dish: false });
     };
     componentDidMount() {
+        this.props.getAllDishes()
+    }
+    componentWillReceiveProps(nextProps) {
+        const { listDishes, detailDish } = this.props;
+        if (nextProps.listDishes !== listDishes) {
+            this.setState({
+                listDishes: nextProps.listDishes
+            });
+        }
+        if (JSON.stringify(nextProps.detailDish) !== JSON.stringify(detailDish)) {
+            console.log(nextProps.detailDish);
 
+            this.setState({
+                detailDish: nextProps.detailDish,
+                visible: true,
+            });
+        }
     }
     render() {
-        const { listDishes } = this.state;
+        const { listDishes, detailDish } = this.state;
+        if (listDishes && listDishes.length > 0) {
+            var rows = [];
+            var rowbody = [];
+            var img = listDishes.filter((val, ind) => val.thumbnail)
+            var listSlider = img.map((val) => {
+                return (
+                    <Card
+                        cover={<img alt="example" src={val.thumbnail} />}
+                    >
+                        <h1>{val.title}</h1>
+                        <h3>{val.description}</h3>
+                    </Card>
+                )
+            })
 
-        // if (listDishes && listDishes.length > 0) {
-        //     var rows = [];
-        //     var rowbody = [];
-        //     var rowdata = listDishes.map((val, ind) => {
-        //         return (
-        //             <Col span={8} >
-        //                 <Card title={val.title} style={{ width: 300 }}>
-        //                     <p>{val.content}</p>
-        //                 </Card>
-        //             </Col>
-        //         )
-        //     })
-        // }
+            var rowdata = listDishes.map((val, ind) => {
+
+
+                return (
+                    <Col span={8} >
+                        <Card hoverable title={val.title} style={{ width: 300 }} onClick={e => this.showModal(e, val.dish_id)} >
+                            <p>{val.description}</p>
+                        </Card>
+                    </Col>
+                )
+            })
+            var i = 0;
+            while (i < rowdata.length) {
+                rowbody.push(
+                    <Row gutter={[16, 16]}>
+                        <Space direction="horizontal">
+                            {rowdata[i]}
+                            {rowdata[i + 1]}
+                            {rowdata[i + 2]}
+                        </Space>
+                    </Row>
+                )
+                i = i + 3
+            }
+        }
+        console.log(detailDish);
 
         return (
             <Layout className="homepage">
-                <Header>Header</Header>
+                <Header>
+                    <h2>MÓN NGON MỖI NGÀY</h2>
+                    <Dropdown overlay={
+                        <Menu>
+                            <Menu.Item>
+                                <Button onClick={this.addDish}>Thêm món ăn</Button>
+                            </Menu.Item>
+                        </Menu>
+                    }>
+
+                        <Avatar size={32} icon={<UserOutlined />} className="ant-dropdown-link" onClick={e => e.preventDefault()} />
+
+                    </Dropdown>
+                </Header>
                 <Content>
                     <Carousel autoplay className="slider-image">
-                        <div>
-                            <h3>1</h3>
-                        </div>
-                        <div>
-                            <h3>2</h3>
-                        </div>
-                        <div>
-                            <h3>3</h3>
-                        </div>
-                        <div>
-                            <h3>4</h3>
-                        </div>
+                        {listSlider}
                     </Carousel>
                     <Layout>
+                        {
+                            detailDish.length > 0 ? (
+                                <Modal
+                                    visible={this.state.visible}
+                                    title={detailDish[0].title}
+                                    footer={null}
+                                    onCancel={this.handleCancel}
+                                >
+                                    <Rate disabled defaultValue={2} />
+                                    <p>Những nguyên liệu cần chuẩn bị</p>
+                                    {
+                                        detailDish[0].ingredients.length > 0 ? (
+                                            <>
+                                                {detailDish[0].ingredients.map((val, ind) =>
+                                                    (<p>{val.ingredient_name} : {val.ingredient_weight} </p>)
+                                                )}
+                                            </>
+                                        ) : null
+                                    }
+                                    <p><Rate /></p>
+                                    <h2>Bước 1: Sơ chế</h2>
+                                    <p>{val.prepare}</p>
+                                    <h2>Bước 2: Thực hiện</h2>
+                                    <p>{val.doing}</p>
+                                    <h2>Bước 3: Thưởng thức</h2>
+                                    <p>{val.eating}</p>
+                                </Modal>
+                            ) : null
+                        }
+
                         <Modal
-                            visible={this.state.visible}
-                            title="Title"
+                            visible={this.state.add_dish}
+                            title="Thêm món ăn mới"
                             footer={null}
                             onCancel={this.handleCancel}
+                            cancel={this.handleCancel}
                         >
-                            <Rate disabled defaultValue={2} />
-                            <p>Some contents...</p>
-                            <p>Some contents...</p>
-                            <p>Some contents...</p>
-                            <p><Rate /></p>
+                            <AddDish />
                         </Modal>
-                        <Sider>
+                        {/* <Sider>
                             <Menu theme="dark" defaultSelectedKeys={['1']} mode="vertical-left">
                                 <Menu.Item key="1">
                                     <span>Option 1</span>
@@ -89,109 +175,10 @@ export default class Homepage extends Component {
                                     <span>Option 5</span>
                                 </Menu.Item>
                             </Menu>
-                        </Sider>
+                        </Sider> */}
                         <Content>
                             <Space direction="vertical">
-                                <Row gutter={[16, 16]}>
-                                    <Space direction="horizontal">
-                                        <Col span={8} >
-                                            <Card title="Default size card" style={{ width: 300 }} onClick={this.showModal}>
-                                                <p>Card content</p>
-                                                <p>Card content</p>
-                                                <p>Card content</p>
-                                            </Card>
-                                        </Col>
-                                        <Col span={8} >
-                                            <Card title="Default size card" style={{ width: 300 }}>
-                                                <p>Card content</p>
-                                                <p>Card content</p>
-                                                <p>Card content</p>
-                                            </Card>
-                                        </Col>
-                                        <Col span={8} >
-                                            <Card title="Default size card" style={{ width: 300 }}>
-                                                <p>Card content</p>
-                                                <p>Card content</p>
-                                                <p>Card content</p>
-                                            </Card>
-                                        </Col>
-                                    </Space>
-                                </Row>
-                                <Row gutter={[16, 16]}>
-                                    <Space direction="horizontal">
-                                        <Col span={8} >
-                                            <Card title="Default size card" style={{ width: 300 }}>
-                                                <p>Card content</p>
-                                                <p>Card content</p>
-                                                <p>Card content</p>
-                                            </Card>
-                                        </Col>
-                                        <Col span={8} >
-                                            <Card title="Default size card" style={{ width: 300 }}>
-                                                <p>Card content</p>
-                                                <p>Card content</p>
-                                                <p>Card content</p>
-                                            </Card>
-                                        </Col>
-                                        <Col span={8} >
-                                            <Card title="Default size card" style={{ width: 300 }}>
-                                                <p>Card content</p>
-                                                <p>Card content</p>
-                                                <p>Card content</p>
-                                            </Card>
-                                        </Col>
-                                    </Space>
-                                </Row>
-                                <Row gutter={[16, 16]}>
-                                    <Space direction="horizontal">
-                                        <Col span={8} >
-                                            <Card title="Default size card" style={{ width: 300 }}>
-                                                <p>Card content</p>
-                                                <p>Card content</p>
-                                                <p>Card content</p>
-                                            </Card>
-                                        </Col>
-                                        <Col span={8} >
-                                            <Card title="Default size card" style={{ width: 300 }}>
-                                                <p>Card content</p>
-                                                <p>Card content</p>
-                                                <p>Card content</p>
-                                            </Card>
-                                        </Col>
-                                        <Col span={8} >
-                                            <Card title="Default size card" style={{ width: 300 }}>
-                                                <p>Card content</p>
-                                                <p>Card content</p>
-                                                <p>Card content</p>
-                                            </Card>
-                                        </Col>
-                                    </Space>
-                                </Row>
-                                <Row gutter={[16, 16]}>
-                                    <Space direction="horizontal">
-                                        <Col span={8} >
-                                            <Card title="Default size card" style={{ width: 300 }}>
-                                                <p>Card content</p>
-                                                <p>Card content</p>
-                                                <p>Card content</p>
-                                            </Card>
-                                        </Col>
-                                        <Col span={8} >
-                                            <Card title="Default size card" style={{ width: 300 }}>
-                                                <p>Card content</p>
-                                                <p>Card content</p>
-                                                <p>Card content</p>
-                                            </Card>
-                                        </Col>
-                                        <Col span={8} >
-                                            <Card title="Default size card" style={{ width: 300 }}>
-                                                <p>Card content</p>
-                                                <p>Card content</p>
-                                                <p>Card content</p>
-                                            </Card>
-                                        </Col>
-                                    </Space>
-                                </Row>
+                                {rowbody}
                             </Space>
                         </Content>
                     </Layout>
@@ -203,3 +190,16 @@ export default class Homepage extends Component {
         )
     }
 }
+
+const mapDispatchToProps = dispatch => ({
+    getAllDishes: () => dispatch(getAllDishes()),
+    getDetailDish: (data) => dispatch(getDetailDish(data))
+})
+const mapStateToProps = state => ({
+    isLoading: state.homeReducer.isLoading,
+    error: state.homeReducer.error,
+    listDishes: state.homeReducer.listDishes,
+    detailDish: state.homeReducer.detailDish
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Homepage)

@@ -23,3 +23,57 @@ export const getAllDishesFail = error => {
         }
     };
 };
+
+export const postNewDish = (data) => {
+    return {
+        type: types.POST_NEW_DISH,
+        payload: {
+            data
+        }
+    };
+};
+
+export const postNewDishSuccess = data => {
+    return {
+        type: types.POST_NEW_DISH_SUCCESS,
+        payload: {
+            data
+        }
+    };
+};
+
+export const postNewDishFail = error => {
+    return {
+        type: types.POST_NEW_DISH_FAIL,
+        payload: {
+            error
+        }
+    };
+};
+
+export const getDetailDish = (data) => {
+    return {
+        type: types.GET_DETAIL_DISH,
+        payload: {
+            data
+        }
+    };
+};
+
+export const getDetailDishSuccess = data => {
+    return {
+        type: types.GET_DETAIL_DISH_SUCCESS,
+        payload: {
+            data
+        }
+    };
+};
+
+export const getDetailDishFail = error => {
+    return {
+        type: types.GET_DETAIL_DISH_FAIL,
+        payload: {
+            error
+        }
+    };
+};
