@@ -126,8 +126,9 @@ class Homepage extends Component {
                                     footer={null}
                                     onCancel={this.handleCancel}
                                 >
-                                    <Rate disabled defaultValue={2} />
-                                    <p>Những nguyên liệu cần chuẩn bị</p>
+                                    <p> Đánh giá: <Rate disabled defaultValue={detailDish[0].rating} />  </p>
+
+                                    <h2>Những nguyên liệu cần chuẩn bị</h2>
                                     {
                                         detailDish[0].ingredients.length > 0 ? (
                                             <>
@@ -137,13 +138,14 @@ class Homepage extends Component {
                                             </>
                                         ) : null
                                     }
-                                    <p><Rate /></p>
                                     <h2>Bước 1: Sơ chế</h2>
                                     <p>{detailDish[0].prepare}</p>
                                     <h2>Bước 2: Thực hiện</h2>
                                     <p>{detailDish[0].doing}</p>
                                     <h2>Bước 3: Thưởng thức</h2>
                                     <p>{detailDish[0].eating}</p>
+                                    <p>Đánh giá</p>
+                                    <p><Rate /></p>
                                 </Modal>
                             ) : null
                         }

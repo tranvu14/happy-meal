@@ -74,11 +74,9 @@ class AddDish extends React.Component {
                       {...field}
                       name={[field.name, 'ingredient_weight']}
                       fieldKey={[field.fieldKey, 'ingredient_weight']}
-                      rules={[{ required: true, message: 'Thiếu khối lượng' }]}
                     >
                       <Input placeholder="Khối lượng" />
                     </Form.Item>
-
                     <MinusCircleOutlined
                       onClick={() => {
                         remove(field.name);
